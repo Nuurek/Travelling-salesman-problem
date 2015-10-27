@@ -64,6 +64,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CityDistanceMatrix.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProblemGenerator.cpp" />
+    <ClCompile Include="ProblemInstantion.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CityDistanceMatrix.h" />
+    <ClInclude Include="ProblemGenerator.h" />
+    <ClInclude Include="ProblemInstantion.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
