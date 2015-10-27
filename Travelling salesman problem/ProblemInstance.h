@@ -5,10 +5,11 @@
 class ProblemInstance
 {
 	unsigned int numberOfCities_;
-	unsigned int startingCity_;
 	CityDistanceMatrix distances_;
 
 public:
+	unsigned int startingCity;
+
 	ProblemInstance();
 	ProblemInstance(unsigned int numberOfCities);
 
@@ -19,7 +20,10 @@ public:
 	iterator begin() { return &distances_(1, 0); }
 	iterator end() { return &distances_(numberOfCities_ - 1, numberOfCities_ - 2) + 1; }
 
-	void setStartingCity(unsigned int start);
+	unsigned int getNumberOfCities()
+	{
+		return numberOfCities_;
+	}
 	void print();
 };
 

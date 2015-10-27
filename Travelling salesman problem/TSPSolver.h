@@ -1,9 +1,22 @@
 #pragma once
+#include <memory>
 #include "ProblemInstance.h"
+
+using Solution = std::pair<unsigned long long, std::vector<unsigned int>>;
 
 class TSPSolver
 {
-	ProblemInstance instance;
+
+protected:
+	ProblemInstance instance_;
+
+	unsigned long long calculateDistance(std::shared_ptr<std::vector<unsigned int>> path)
+	{
+		unsigned long long distance = 0;
+		for (auto city = path->begin(); city != path->end() - 1; city++)
+			distance += instance_(*city, *(city + 1));
+		return distance;
+	}
 
 public:
 
@@ -11,10 +24,15 @@ public:
 	{
 	}
 
+	TSPSolver(ProblemInstance instance) :
+		instance_(instance)
+	{
+	}
+
 	~TSPSolver()
 	{
 	}
 
-	virtual unsigned int solve();
+	virtual Solution solve() = 0;
 };
 

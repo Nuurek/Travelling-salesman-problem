@@ -21,11 +21,6 @@ unsigned int ProblemInstance::operator()(unsigned int start, unsigned int destin
 	return distances_(start, destination);
 }
 
-void ProblemInstance::setStartingCity(unsigned int start)
-{
-	startingCity_ = start;
-}
-
 void ProblemInstance::print()
 {
 	for (unsigned int row = 1; row < numberOfCities_; row++)
