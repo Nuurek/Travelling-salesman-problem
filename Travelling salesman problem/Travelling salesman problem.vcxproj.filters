@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ProblemInstantion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -27,15 +24,21 @@
     <ClCompile Include="ProblemGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProblemInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ProblemInstantion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CityDistanceMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProblemGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TSPSolver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProblemInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -67,12 +67,13 @@
     <ClCompile Include="CityDistanceMatrix.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ProblemGenerator.cpp" />
-    <ClCompile Include="ProblemInstantion.cpp" />
+    <ClCompile Include="ProblemInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CityDistanceMatrix.h" />
     <ClInclude Include="ProblemGenerator.h" />
-    <ClInclude Include="ProblemInstantion.h" />
+    <ClInclude Include="ProblemInstance.h" />
+    <ClInclude Include="TSPSolver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

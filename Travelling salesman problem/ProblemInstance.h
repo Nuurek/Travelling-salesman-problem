@@ -2,14 +2,15 @@
 #include <iostream>
 #include "CityDistanceMatrix.h"
 
-class ProblemInstantion
+class ProblemInstance
 {
 	unsigned int numberOfCities_;
 	unsigned int startingCity_;
 	CityDistanceMatrix distances_;
 
 public:
-	ProblemInstantion(unsigned int numberOfCities);
+	ProblemInstance();
+	ProblemInstance(unsigned int numberOfCities);
 
 	unsigned int& operator()(unsigned int start, unsigned int destination);
 	unsigned int operator()(unsigned int start, unsigned int destination) const;

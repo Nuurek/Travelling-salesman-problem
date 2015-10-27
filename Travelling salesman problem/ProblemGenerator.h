@@ -1,7 +1,7 @@
 #pragma once
 #include <random>
 #include <chrono>
-#include "ProblemInstantion.h"
+#include "ProblemInstance.h"
 
 class ProblemGenerator
 {
@@ -11,6 +11,6 @@ class ProblemGenerator
 public:
 	ProblemGenerator();
 
-	ProblemInstantion generateProblem(unsigned int numberOfCities, unsigned int minDistance, unsigned int maxDistance);
+	ProblemInstance generateProblem(unsigned int numberOfCities, unsigned int minDistance, unsigned int maxDistance);
 };
 

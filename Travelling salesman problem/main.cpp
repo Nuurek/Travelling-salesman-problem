@@ -1,11 +1,11 @@
 #pragma once
-#include "ProblemInstantion.h"
+#include "ProblemInstance.h"
 #include "ProblemGenerator.h"
 
 int main()
 {
 	ProblemGenerator generator;
-	ProblemInstantion TSP = generator.generateProblem(10, 0, 50);
+	ProblemInstance TSP = generator.generateProblem(10, 0, 50);
 	TSP.print();
 	system("PAUSE");
 }
