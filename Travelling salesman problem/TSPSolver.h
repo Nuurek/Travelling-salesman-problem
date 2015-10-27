@@ -6,7 +6,6 @@ using Solution = std::pair<unsigned long long, std::vector<unsigned int>>;
 
 class TSPSolver
 {
-
 protected:
 	ProblemInstance instance_;
 
@@ -19,11 +18,6 @@ protected:
 	}
 
 public:
-
-	TSPSolver()
-	{
-	}
-
 	TSPSolver(ProblemInstance instance) :
 		instance_(instance)
 	{

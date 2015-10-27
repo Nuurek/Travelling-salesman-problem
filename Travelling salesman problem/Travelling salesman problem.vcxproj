@@ -67,12 +67,14 @@
     <ClCompile Include="BruteForce.cpp" />
     <ClCompile Include="CityDistanceMatrix.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NearestNeighbour.cpp" />
     <ClCompile Include="ProblemGenerator.cpp" />
     <ClCompile Include="ProblemInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BruteForce.h" />
     <ClInclude Include="CityDistanceMatrix.h" />
+    <ClInclude Include="NearestNeighbour.h" />
     <ClInclude Include="ProblemGenerator.h" />
     <ClInclude Include="ProblemInstance.h" />
     <ClInclude Include="TSPSolver.h" />

@@ -32,10 +32,8 @@ Solution BruteForce::solve()
 	{
 		unsigned long long distance = calculateDistance(std::make_shared<std::vector<unsigned int>>(path));
 		if (distance < bestSolution_.first)
-			bestSolution_ = std::make_pair(distance, path);
+			bestSolution_ = Solution(distance, path);
 	} while (std::next_permutation(path.begin() + 1, path.end() - 1));
 	
-	std::cout << bestSolution_.first << "\n";
-
 	return bestSolution_;
 }
