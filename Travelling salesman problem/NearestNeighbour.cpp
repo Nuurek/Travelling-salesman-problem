@@ -1,8 +1,8 @@
 #include "NearestNeighbour.h"
 
 
-NearestNeighbour::NearestNeighbour(ProblemInstance instance) :
-TSPSolver(instance) 
+NearestNeighbour::NearestNeighbour(ProblemInstance instance) 
+	: TSPSolver(instance) 
 {
 }
 

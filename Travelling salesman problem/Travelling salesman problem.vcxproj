@@ -65,7 +65,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BruteForce.cpp" />
+    <ClCompile Include="Chromosome.cpp" />
     <ClCompile Include="CityDistanceMatrix.cpp" />
+    <ClCompile Include="GeneticAlgorithm.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NearestNeighbour.cpp" />
     <ClCompile Include="ProblemGenerator.cpp" />
@@ -73,7 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BruteForce.h" />
+    <ClInclude Include="Chromosome.h" />
     <ClInclude Include="CityDistanceMatrix.h" />
+    <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="NearestNeighbour.h" />
     <ClInclude Include="ProblemGenerator.h" />
     <ClInclude Include="ProblemInstance.h" />
