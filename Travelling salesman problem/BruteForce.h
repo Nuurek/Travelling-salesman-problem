@@ -5,12 +5,12 @@
 class BruteForce :
 	protected TSPSolver
 {
+protected:
 	Solution bestSolution_;
 	std::vector<unsigned int> firstPathPermutation();
 
 public:
 	BruteForce(ProblemInstance instance);
-
 	Solution solve();
 };
 
