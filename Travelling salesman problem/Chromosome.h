@@ -9,5 +9,6 @@ public:
 	unsigned long long fitness;
 
 	Chromosome(unsigned int size);
+	Chromosome(unsigned int size, unsigned int startingCity);
 };
 
