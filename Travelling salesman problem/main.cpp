@@ -4,17 +4,21 @@
 #include "BruteForce.h"
 #include "NearestNeighbour.h"
 #include "GeneticAlgorithm.h"
+#include <fstream>
 
 int main()
 {
+	/*
+	std::ofstream out("out.txt");
+	std::streambuf *coutbuf = std::cout.rdbuf();
+	std::cout.rdbuf(out.rdbuf());
+	*/
+
 	ProblemGenerator generator;
-	ProblemInstance TSP = generator.generateProblem(10, 1, 20);
+	ProblemInstance TSP = generator.generateProblem(100, 1, 100);
 	TSP.startingCity = 0;
 	TSP.print();
 	Solution sol;
-
-	for (int i = -10; i <= 10; i++)
-		std::cout << "Modulo: " << i % 10 << "\n";
 
 	/*
 	BruteForce bf(TSP);
@@ -31,11 +35,13 @@ int main()
 	for (auto city : sol.second)
 		std::cout << city << " -> ";
 	std::cout << "\n";
-	
 
 	GeneticAlgorithm ga(TSP);
-	ga.setAttributes(10);
-	ga.initialize();
-	ga.print();
+	ga.setAttributes(100, 0.1, 0.1);
+	sol = ga.solve(10);
+	std::cout << "\nShortest path: " << sol.first << "\n";
+	for (auto city : sol.second)
+		std::cout << city << " -> ";
+	std::cout << "\n";
 	system("PAUSE");
 }

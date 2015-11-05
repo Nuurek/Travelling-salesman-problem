@@ -8,49 +8,33 @@ GeneticAlgorithm::GeneticAlgorithm(ProblemInstance instance)
 	randomEngine_.seed(20);
 }
 
-
 GeneticAlgorithm::~GeneticAlgorithm()
 {
 }
 
 void GeneticAlgorithm::initialize()
 {
-	unsigned int numberOfCities = instance_.getNumberOfCities() - 1;
+	unsigned int numberOfCities = instance_.getNumberOfCities();
 
-	population = std::vector<Chromosome>(populationSize_, Chromosome(numberOfCities, instance_.startingCity));
+	population = std::vector<Chromosome>(populationCap_, Chromosome(numberOfCities));
 	std::cout << "Population size: " << population.size() << "\n";
 	for (auto& chromosome : population)
 	{
 		std::shuffle(chromosome.begin(), chromosome.end(), randomEngine_);
+		updateFitness(chromosome);
 	}
-	updateFitnesses();
 }
 
 unsigned long long GeneticAlgorithm::updateFitness(Chromosome& chromosome)
 {
-	unsigned int numberOfCities = instance_.getNumberOfCities() - 1;
+	unsigned int numberOfCities = instance_.getNumberOfCities();
 
 	chromosome.fitness = 0;
 	for (unsigned int city = 0; city < numberOfCities - 1; city++)
 		chromosome.fitness += instance_(chromosome[city], chromosome[city + 1]);
-	chromosome.fitness += instance_(chromosome[0], instance_.startingCity);
-	chromosome.fitness += instance_(chromosome[numberOfCities - 1], instance_.startingCity);
+	chromosome.fitness += instance_(chromosome[0], chromosome[numberOfCities - 1]);
 
 	return chromosome.fitness;
-}
-
-unsigned long long GeneticAlgorithm::updateFitnesses()
-{
-	unsigned long long elite = ULLONG_MAX;
-
-	for (auto& chromosome : population)
-	{
-		updateFitness(chromosome);
-		if (chromosome.fitness < elite)
-			elite = chromosome.fitness;
-	}
-
-	return elite;
 }
 
 unsigned long long GeneticAlgorithm::optSwap(Chromosome& chromosome, unsigned int cityA, unsigned int cityB)
@@ -74,24 +58,25 @@ unsigned long long GeneticAlgorithm::optSwap(Chromosome& chromosome, unsigned in
 unsigned long long GeneticAlgorithm::optMethod(Chromosome& chromosome)
 {
 	bool improvementMade = true;
-	unsigned int numberOfCities = instance_.getNumberOfCities() - 1;
+	unsigned int numberOfCities = instance_.getNumberOfCities();
 	unsigned long long singleDifference = 0, difference = 0;
+	unsigned int cityA, cityB;
 
 	while (improvementMade)
 	{
 		improvementMade = false;
-		for (unsigned int cityA = 0; cityA < numberOfCities - 1; cityA++)
+for (cityA = 0; cityA < numberOfCities - 1; cityA++)
+{
+	for (cityB = cityA + 2; cityB < numberOfCities - 1; cityB++)
+	{
+		singleDifference = optSwap(chromosome, cityA, cityB);
+		if (singleDifference > 0)
 		{
-			for (unsigned int cityB = cityA + 2; cityB < numberOfCities - 1; cityB++)
-			{
-				singleDifference = optSwap(chromosome, cityA, cityB);
-				if (singleDifference > 0)
-				{
-					difference += singleDifference;
-					improvementMade = true;
-				}
-			}
+			difference += singleDifference;
+			improvementMade = true;
 		}
+	}
+}
 	}
 	chromosome.fitness = chromosome.fitness - difference;
 	return difference;
@@ -103,38 +88,28 @@ Chromosome GeneticAlgorithm::crossover(Chromosome& parentA, Chromosome& parentB)
 	unsigned int cityAIndex, cityBIndex;
 	unsigned int numberOfCities = instance_.getNumberOfCities();
 	std::list<unsigned int> childPrototype;
-	Chromosome child(numberOfCities - 1);
-	std::vector<unsigned int> notTaken, taken;
+	Chromosome child(numberOfCities);
+	Chromosome taken;
 	unsigned int sizeOfTaken = 1;
 	distribiution_ = std::uniform_int_distribution<unsigned int>(0, numberOfCities - 1);
 	unsigned int firstCity;
-	
-	do
-	{
-		firstCity = distribiution_(randomEngine_);
-	} while (firstCity == instance_.startingCity);
-	std::cout << "Number of cities = " << numberOfCities << ", First city = " << firstCity << "\n";
+
+	firstCity = distribiution_(randomEngine_);
 	childPrototype.push_back(firstCity);
 	taken.emplace_back(firstCity);
+
 	cityAIndex = std::find(parentA.begin(), parentA.end(), firstCity) - parentA.begin();
-	std::cout << "First city found in ParentA, index " << cityAIndex << "\n";
 	cityBIndex = std::find(parentB.begin(), parentB.end(), firstCity) - parentB.begin();
-	std::cout << "First city found in ParentB, index " << cityBIndex << "\n";
 	while (smthToTakeA || smthToTakeB)
 	{
-		std::cout << "Still something to take.\n";
-		
 		if (smthToTakeA)
 		{
-			cityAIndex = (cityAIndex - 1);
+			--cityAIndex;
 			if (cityAIndex == UINT32_MAX)
-				cityAIndex = numberOfCities - 2;
-			std::cout << "Aindex = " << cityAIndex << "\n";
-
+				cityAIndex = numberOfCities - 1;
 			if (std::find(childPrototype.begin(), childPrototype.end(), parentA[cityAIndex]) == childPrototype.end())
 			{
 				unsigned int city = unsigned int(parentA[cityAIndex]);
-				std::cout << "Nie znaleziono miasta z CityA w dziecku: miasto: " << city << " na pozycji " << cityAIndex << "\n";
 				childPrototype.push_front(city);
 				taken.emplace_back(city);
 				++sizeOfTaken;
@@ -144,12 +119,10 @@ Chromosome GeneticAlgorithm::crossover(Chromosome& parentA, Chromosome& parentB)
 		}
 		if (smthToTakeB)
 		{
-			cityBIndex = (cityBIndex + 1) % (numberOfCities - 1);
-			std::cout << "Bindex = " << cityBIndex << "\n";
+			cityBIndex = (cityBIndex + 1) % (numberOfCities);
 			if (std::find(childPrototype.begin(), childPrototype.end(), parentB[cityBIndex]) == childPrototype.end())
 			{
 				unsigned int city = unsigned int(parentB[cityBIndex]);
-				std::cout << "Nie znaleziono miasta z CityB w dziecku: miasto: " << city << " na pozycji " << cityBIndex << "\n";
 				childPrototype.push_back(city);
 				taken.emplace_back(city);
 				++sizeOfTaken;
@@ -157,108 +130,144 @@ Chromosome GeneticAlgorithm::crossover(Chromosome& parentA, Chromosome& parentB)
 			else
 				smthToTakeB = false;
 		}
-		for (auto city : childPrototype)
-			std::cout << city << "->";
-		std::cout << "\n";
 	}
 
-	Chromosome genericChromosome(numberOfCities - 1, instance_.startingCity);
-	std::sort(taken.begin(), taken.end());
-
-	for (unsigned int i = 0, j = 0; (i < numberOfCities - 1) && (j < taken.size()); i++)
-	{
-		if (genericChromosome[i] < taken[j])
-			notTaken.emplace_back(genericChromosome[j]);
-		else if (genericChromosome[i] == taken[j])
-			++j;
-	}
-
-	std::random_shuffle(notTaken.begin(), notTaken.end());
+	Chromosome notTaken = taken.complementChromosome(numberOfCities);
 
 	int i = 0;
 	for (auto city : childPrototype)
 		child[i++] = city;
 
-	std::cout << "\nCHILD:\n";
-	for (auto city : child)
-		std::cout << city << "->";
-	std::cout << "\nTAKEN:\n";
-	for (auto city : taken)
-		std::cout << city << "->";
-	std::cout << "\nNOTTAKEN\n";
-	for (auto city : notTaken)
-		std::cout << city << "->";
-
 	for (unsigned int i = 0; i < notTaken.size(); i++)
 		child[taken.size() + i] = notTaken[i];
 
-	std::cout << "ParentA:\n";
-	for (auto city : parentA)
-		std::cout << city << "->";
-	std::cout << "\nfitness = " << parentA.fitness << "\n\n";
-
-	std::cout << "ParentB:\n";
-	for (auto city : parentB)
-		std::cout << city << "->";
-	std::cout << "\nfitness = " << parentB.fitness << "\n\n";
-
-	std::cout << "Child:\n";
-	for (auto city : child)
-		std::cout << city << "->";
-	updateFitness(child);
-	std::cout << "\nfitness = " << child.fitness << "\n\n";
-	
 	return child;
 }
 
-void GeneticAlgorithm::setAttributes(unsigned int populationSize)
+unsigned int GeneticAlgorithm::eliminateDuplicates()
 {
-	populationSize_ = populationSize;
+	unsigned int duplicatesCount = 0;
+
+	for (unsigned int chromosome = 0; chromosome < populationCap_ - 1; chromosome++)
+	{
+		if (population[chromosome] == population[chromosome + 1])
+		{
+			population[chromosome] = Chromosome::emptyChromosome();
+			++duplicatesCount;
+		}
+	}
+	populationSize_ -= duplicatesCount;
+
+	return populationSize_;
+}
+
+unsigned int GeneticAlgorithm::eliminateImpotents()
+{
+	unsigned int targetSize = (1.0 - crossoverPercentage_) * static_cast<double>(populationCap_);
+	
+	if (((populationCap_ - populationSize_) % 2) == 1)
+	{
+		population[populationSize_ - 1] = Chromosome::emptyChromosome();
+		--populationSize_;
+	}
+	if (targetSize >= populationSize_)
+		return populationSize_;
+
+	if (((populationCap_ - targetSize) % 2) == 1)
+		++targetSize;
+	for (unsigned int chromosome = targetSize; chromosome < populationSize_; chromosome++)
+		population[chromosome] = Chromosome::emptyChromosome();
+	populationSize_ = targetSize;
+
+	return populationSize_;
+}
+
+void GeneticAlgorithm::recombine()
+{
+	unsigned int numberOfParents = populationSize_;
+	if (numberOfParents == 0)
+		return;
+	for (unsigned chromosome = populationSize_; chromosome < populationCap_; chromosome++)
+	{
+		distribiution_ = std::uniform_int_distribution<unsigned int>(0, (numberOfParents * numberOfParents + numberOfParents) / 2 - 1);
+		unsigned rand = distribiution_(randomEngine_);
+		unsigned int parentA = numberOfParents - static_cast<unsigned int>((1.0 + sqrt(8 * rand + 1)) / 2);
+		rand = distribiution_(randomEngine_);
+		unsigned int parentB = numberOfParents - static_cast<unsigned int>((1.0 + sqrt(8 * rand + 1)) / 2);
+		population[chromosome] = crossover(population[parentA], population[parentB]);
+		updateFitness(population[chromosome]);
+		++populationSize_;
+	}
+}
+
+void GeneticAlgorithm::mutate()
+{
+	optMethod(population[0]);
+	unsigned int numberOfMutations = static_cast<unsigned int>(mutationPercentage_ * static_cast<double>(populationCap_));
+	distribiution_ = std::uniform_int_distribution<unsigned int>(1, populationCap_ - 1);
+	while (numberOfMutations--)
+		optMethod(population[std::move(distribiution_(randomEngine_))]);
+}
+
+void GeneticAlgorithm::setAttributes(unsigned int populationCap, double crossoverPercentage, double mutationPercentage)
+{
+	populationCap_ = populationSize_ = populationCap;
+	crossoverPercentage_ = crossoverPercentage;
+	mutationPercentage_ = mutationPercentage;
+}
+
+void GeneticAlgorithm::setMaximums(unsigned int maxEpochs)
+{
+	maxEpochs_ = maxEpochs;
 }
 
 unsigned long long GeneticAlgorithm::sort()
 {
-	std::sort(population.begin(), population.end(), [](Chromosome& chromosomeA, Chromosome& chromosomeB)
+	std::sort(population.begin(), population.end(), [](const Chromosome& chromosomeA, const Chromosome& chromosomeB)
 	{
-		return chromosomeA.fitness < chromosomeB.fitness;
+		return chromosomeA < chromosomeB;
 	});
 
 	return population[0].fitness;
 }
 
-auto GeneticAlgorithm::solve() -> Solution
+void GeneticAlgorithm::epoch()
 {
-	return Solution();
+	sort();
+	eliminateDuplicates();
+	sort();
+	//std::cout << "DUPLICATES ELIMINATED\n";
+	//print();
+	eliminateImpotents();
+	//std::cout << "IMPOTENTS ELIMINATED\n";
+	//print();
+	recombine();
+	//std::cout << "AFTER RECOMBINATION\n";
+	//print();
+	mutate();
+	sort();
+	//std::cout << "AFTER MUTATION\n";
+	//print();
+}
+
+Solution GeneticAlgorithm::solve()
+{
+	return solve(maxEpochs_);
+}
+
+Solution GeneticAlgorithm::solve(unsigned int epochs)
+{
+	initialize();
+	while (epochs--)
+		epoch();
+	return Solution(population[0].fitness, population[0]);
 }
 
 void GeneticAlgorithm::print()
 {
-	sort();
 	for (auto& chromosome : population)
 	{
-		std::cout << "################################\n";
-		for (auto city : chromosome)
-			std::cout << city << "->";
-		std::cout << "\nfitness = " << chromosome.fitness << "\n\n";
+		chromosome.print();
 	}
-	
-	for (auto& chromosome : population)
-	{
-		optMethod(chromosome);
-	}
-	sort();
-
-	std::cout << "\n################################\nAFTER IMPROVEMENT\n################################\n" << "\n";
-	for (auto& chromosome : population)
-	{
-		std::cout << "################################\n";
-		for (auto city : chromosome)
-			std::cout << city << "->";
-		std::cout << "\nfitness = " << chromosome.fitness << "\n\n";
-	}
-
-	for (int i = 0; i < populationSize_; i += 2)
-	{
-		crossover(population[i], population[i + 1]);
-	}
+	std::cout << "\n\n";
 }
