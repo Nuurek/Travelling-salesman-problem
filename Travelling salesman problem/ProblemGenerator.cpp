@@ -3,8 +3,8 @@
 
 ProblemGenerator::ProblemGenerator()
 {
-	randomEngine_.seed(static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()));
-//	randomEngine_.seed(0);
+	//randomEngine_.seed(static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()));
+	randomEngine_.seed(10);
 }
 
 ProblemInstance ProblemGenerator::generateProblem(unsigned int numberOfCities, unsigned int minDistance, unsigned int maxDistance)
