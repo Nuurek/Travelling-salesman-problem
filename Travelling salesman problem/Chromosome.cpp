@@ -1,10 +1,10 @@
 #include "Chromosome.h"
 
-Chromosome::Chromosome() : fitness(0), std::vector<unsigned int>()
+Chromosome::Chromosome() : fitness(0), mutated_(false), std::vector<unsigned int>()
 { }
 
 Chromosome::Chromosome(unsigned int size) 
-	: fitness(0), std::vector<unsigned int>(size)
+	: fitness(0), mutated_(false), std::vector<unsigned int>(size)
 { 
 	for (unsigned int i = 0; i < size; i++)
 	{
@@ -91,6 +91,6 @@ void Chromosome::print() const
 			std::cout << at(i) << "->";
 
 		std::cout << at(size() - 1);
-		std::cout << "\nfitness = " << fitness << "\n";
+		std::cout << "\nfitness = " << fitness << (mutated_ ? "MUTATED" : "") << "\n";
 	}
 }

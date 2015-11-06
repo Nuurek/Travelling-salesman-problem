@@ -7,9 +7,10 @@
 class Chromosome : public std::vector<unsigned int>
 {
 private:
-
+	
 public:
 	unsigned long long fitness;
+	bool mutated_;
 
 	Chromosome();
 	Chromosome(unsigned int size);
