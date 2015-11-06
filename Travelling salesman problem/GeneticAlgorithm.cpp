@@ -62,21 +62,23 @@ unsigned long long GeneticAlgorithm::optMethod(Chromosome& chromosome)
 	unsigned long long singleDifference = 0, difference = 0;
 	unsigned int cityA, cityB;
 
+	chromosome.mutated_ = true;
+
 	while (improvementMade)
 	{
 		improvementMade = false;
-for (cityA = 0; cityA < numberOfCities - 1; cityA++)
-{
-	for (cityB = cityA + 2; cityB < numberOfCities - 1; cityB++)
-	{
-		singleDifference = optSwap(chromosome, cityA, cityB);
-		if (singleDifference > 0)
+		for (cityA = 0; cityA < numberOfCities - 1; cityA++)
 		{
-			difference += singleDifference;
-			improvementMade = true;
+			for (cityB = cityA + 2; cityB < numberOfCities - 1; cityB++)
+			{
+				singleDifference = optSwap(chromosome, cityA, cityB);
+				if (singleDifference > 0)
+				{
+					difference += singleDifference;
+					improvementMade = true;
+				}
+			}
 		}
-	}
-}
 	}
 	chromosome.fitness = chromosome.fitness - difference;
 	return difference;
@@ -202,11 +204,16 @@ void GeneticAlgorithm::recombine()
 
 void GeneticAlgorithm::mutate()
 {
-	optMethod(population[0]);
+	if (!population[0].mutated_)
+		optMethod(population[0]);
 	unsigned int numberOfMutations = static_cast<unsigned int>(mutationPercentage_ * static_cast<double>(populationCap_));
 	distribiution_ = std::uniform_int_distribution<unsigned int>(1, populationCap_ - 1);
 	while (numberOfMutations--)
-		optMethod(population[std::move(distribiution_(randomEngine_))]);
+	{
+		unsigned int rand = distribiution_(randomEngine_);
+		if (!population[rand].mutated_)
+			optMethod(population[rand]);
+	}
 }
 
 void GeneticAlgorithm::setAttributes(unsigned int populationCap, double crossoverPercentage, double mutationPercentage)
@@ -260,7 +267,16 @@ Solution GeneticAlgorithm::solve(unsigned int epochs)
 	initialize();
 	while (epochs--)
 		epoch();
-	return Solution(population[0].fitness, population[0]);
+
+	unsigned int size = instance_.getNumberOfCities();
+	unsigned int zeroCityIndex = std::find(population[0].begin(), population[0].end(), 0) - population[0].begin();
+	Chromosome elite(size + 1);
+	for (unsigned int city = 0; city < size; city++)
+		elite[city] = population[0][(zeroCityIndex + city) % size];
+	elite[size] = 0;
+	elite.fitness = population[0].fitness;
+
+	return Solution(elite.fitness, elite);
 }
 
 void GeneticAlgorithm::print()
