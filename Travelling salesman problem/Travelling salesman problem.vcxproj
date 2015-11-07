@@ -67,20 +67,24 @@
     <ClCompile Include="BruteForce.cpp" />
     <ClCompile Include="Chromosome.cpp" />
     <ClCompile Include="CityDistanceMatrix.cpp" />
+    <ClCompile Include="Driver.cpp" />
     <ClCompile Include="GeneticAlgorithm.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NearestNeighbour.cpp" />
     <ClCompile Include="ProblemGenerator.cpp" />
     <ClCompile Include="ProblemInstance.cpp" />
+    <ClCompile Include="SimulatedAnnealing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BruteForce.h" />
     <ClInclude Include="Chromosome.h" />
     <ClInclude Include="CityDistanceMatrix.h" />
+    <ClInclude Include="Driver.h" />
     <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="NearestNeighbour.h" />
     <ClInclude Include="ProblemGenerator.h" />
     <ClInclude Include="ProblemInstance.h" />
+    <ClInclude Include="SimulatedAnnealing.h" />
     <ClInclude Include="TSPSolver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

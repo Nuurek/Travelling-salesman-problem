@@ -1,5 +1,4 @@
 #include "SimulatedAnnealing.h"
-#include <chrono>
 
 #define calcDistance(path)  calculateDistance(std::make_shared<std::vector<unsigned int>>(path))
 
@@ -11,7 +10,7 @@ Solution SimulatedAnnealing::solve() {
     unsigned int numberOfCities = instance_.getNumberOfCities();
     std::vector<unsigned int> path = firstPathPermutation();
 
-    auto engine = std::default_random_engine{std::time(nullptr)};
+    auto engine = std::default_random_engine{static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()) };
     std::uniform_int_distribution<unsigned int> distribution(1, numberOfCities - 1);
     std::uniform_int_distribution<unsigned int> distribution01(0, 1);
 

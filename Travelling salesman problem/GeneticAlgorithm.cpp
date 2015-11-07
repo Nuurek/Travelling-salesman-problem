@@ -4,8 +4,8 @@
 GeneticAlgorithm::GeneticAlgorithm(ProblemInstance instance) 
 	: TSPSolver(instance)
 {
-	//randomEngine_.seed(static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()));
-	randomEngine_.seed(20);
+	randomEngine_.seed(static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()));
+	//randomEngine_.seed(20);
 }
 
 GeneticAlgorithm::~GeneticAlgorithm()
@@ -17,7 +17,6 @@ void GeneticAlgorithm::initialize()
 	unsigned int numberOfCities = instance_.getNumberOfCities();
 
 	population = std::vector<Chromosome>(populationCap_, Chromosome(numberOfCities));
-	std::cout << "Population size: " << population.size() << "\n";
 	for (auto& chromosome : population)
 	{
 		std::shuffle(chromosome.begin(), chromosome.end(), randomEngine_);
@@ -165,7 +164,7 @@ unsigned int GeneticAlgorithm::eliminateDuplicates()
 
 unsigned int GeneticAlgorithm::eliminateImpotents()
 {
-	unsigned int targetSize = (1.0 - crossoverPercentage_) * static_cast<double>(populationCap_);
+	unsigned int targetSize = static_cast<unsigned int>((1.0 - crossoverPercentage_) * static_cast<double>(populationCap_));
 	
 	if (((populationCap_ - populationSize_) % 2) == 1)
 	{
@@ -269,11 +268,11 @@ Solution GeneticAlgorithm::solve(unsigned int epochs)
 		epoch();
 
 	unsigned int size = instance_.getNumberOfCities();
-	unsigned int zeroCityIndex = std::find(population[0].begin(), population[0].end(), 0) - population[0].begin();
+	unsigned int zeroCityIndex = std::find(population[0].begin(), population[0].end(), instance_.startingCity) - population[0].begin();
 	Chromosome elite(size + 1);
 	for (unsigned int city = 0; city < size; city++)
 		elite[city] = population[0][(zeroCityIndex + city) % size];
-	elite[size] = 0;
+	elite[size] = instance_.startingCity;
 	elite.fitness = population[0].fitness;
 
 	return Solution(elite.fitness, elite);
