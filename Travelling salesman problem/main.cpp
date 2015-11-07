@@ -1,4 +1,3 @@
-#pragma once
 #include "Driver.h"
 
 int main()
@@ -6,44 +5,47 @@ int main()
 	Driver driver;
 
 
-	/*
+
 	ProblemGenerator generator;
 	ProblemInstance TSP;
-	//TSP = generator.generateProblem(100, 1, 100);
-	TSP = ProblemInstance(std::vector<std::pair<double, double>>{ {1, 1}, { -1, -1 }, { 2, 2 }, { 0,0 }, { 10, -8 }, { 9, 1 }});
+	TSP = generator.generateProblem(100, 1, 100);
+	//TSP = ProblemInstance(std::vector<std::pair<double, double>>{ {1, 1}, { -1, -1 }, { 2, 2 }, { 0,0 }, { 10, -8 }, { 9, 1 }});
 	TSP.startingCity = 1;
-	TSP.print();
+	//TSP.print();
 	Solution sol;
-	*/
 
-	/*
-	BruteForce bf(TSP);
-	sol = bf.solve();
-	std::cout << "\nShortest path: " << sol.first << "\n";
-	for (auto city : sol.second)
-		std::cout << city << " -> ";
-	*/
-	
-	/*
+
+
+//	std::cout << "\nBRUTE";
+//	BruteForce bf(TSP);
+//	sol = bf.solve();
+//	std::cout << "\nShortest path: " << sol.first << "\n";
+//	for (auto city : sol.second)
+//		std::cout << city << " -> ";
+//	std::cout << "\n";
+
+
+	std::cout << "\nNN";
 	NearestNeighbour nn(TSP);
 	sol = nn.solve();
 	std::cout << "\nShortest path: " << sol.first << "\n";
 	for (auto city : sol.second)
 		std::cout << city << " -> ";
 	std::cout << "\n";
-	*/
 
-	/*
+
+
+	std::cout << "\nANNEALING";
 	SimulatedAnnealing sa(TSP);
-	sa.setAttributes(0.5);
+	sa.setAttributes(10.0, 0.01, 0.99999);
 	sol = sa.solve();
 	std::cout << "\nShortest path: " << sol.first << "\n";
 	for (auto city : sol.second)
 		std::cout << city << " -> ";
 	std::cout << "\n";
-	*/
 
-	/*
+
+	std::cout << "\nGENETIC";
 	GeneticAlgorithm ga(TSP);
 	ga.setAttributes(100, 0.3, 0.3);
 	sol = ga.solve(10);
@@ -51,7 +53,5 @@ int main()
 	for (auto city : sol.second)
 		std::cout << city << " -> ";
 	std::cout << "\n";
-	*/
 
-	system("PAUSE");
 }

@@ -14,13 +14,15 @@ class SimulatedAnnealing :
     double Tmin;  // minimum temperature
     double coolingTempo;
 
-    double P(long long int deltaDistance);
+    double P(long long int deltaDistance, double temp);
 
 public:
-    SimulatedAnnealing(ProblemInstance instance) : BruteForce(instance), T(10000.0), Tmin(0.00001), coolingTempo(0.9999) { };
+    SimulatedAnnealing(ProblemInstance instance) : BruteForce(instance), T(10000.0), Tmin(0.0001), coolingTempo(0.99999) { };
     Solution solve() override;
-	void setAttributes(double tempo)
+	void setAttributes(double temp, double temp_min, double tempo)
 	{
+		T = temp;
+		Tmin = temp_min;
 		coolingTempo = tempo;
 	}
 };

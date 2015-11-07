@@ -110,7 +110,7 @@ Chromosome GeneticAlgorithm::crossover(Chromosome& parentA, Chromosome& parentB)
 				cityAIndex = numberOfCities - 1;
 			if (std::find(childPrototype.begin(), childPrototype.end(), parentA[cityAIndex]) == childPrototype.end())
 			{
-				unsigned int city = unsigned int(parentA[cityAIndex]);
+				unsigned int city = (unsigned int) (parentA[cityAIndex]);
 				childPrototype.push_front(city);
 				taken.emplace_back(city);
 				++sizeOfTaken;
@@ -123,7 +123,7 @@ Chromosome GeneticAlgorithm::crossover(Chromosome& parentA, Chromosome& parentB)
 			cityBIndex = (cityBIndex + 1) % (numberOfCities);
 			if (std::find(childPrototype.begin(), childPrototype.end(), parentB[cityBIndex]) == childPrototype.end())
 			{
-				unsigned int city = unsigned int(parentB[cityBIndex]);
+				unsigned int city = (unsigned int) (parentB[cityBIndex]);
 				childPrototype.push_back(city);
 				taken.emplace_back(city);
 				++sizeOfTaken;
