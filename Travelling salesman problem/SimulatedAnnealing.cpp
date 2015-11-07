@@ -1,6 +1,13 @@
 #include <c++/iomanip>
 #include "SimulatedAnnealing.h"
 
+/*
+ * SOURCES: https://tdb0.wordpress.com/2010/12/03/symulowane-wyzarzanie/
+ *          http://codecapsule.com/2010/04/06/simulated-annealing-traveling-salesman/
+ *          http://www.technical-recipes.com/2012/c-implementation-of-hill-climbing-and-simulated-annealing-applied-to-travelling-salesman-problems/
+ *          http://www.theprojectspot.com/tutorial-post/simulated-annealing-algorithm-for-beginners/6
+ */
+
 #define calcDistance(path)  calculateDistance(std::make_shared<std::vector<unsigned int>>(path))
 
 double SimulatedAnnealing::P(long long int deltaDistance, double temp) {
