@@ -1,17 +1,20 @@
 #pragma once
 #include <iostream>
+#include <cmath>
 #include "CityDistanceMatrix.h"
 
 class ProblemInstance
 {
 	unsigned int numberOfCities_;
 	CityDistanceMatrix distances_;
+	std::vector<std::pair<double, double>> citiesPositions;
 
 public:
 	unsigned int startingCity;
 
 	ProblemInstance();
 	ProblemInstance(unsigned int numberOfCities);
+	ProblemInstance(std::vector<std::pair<double, double>> vectorOfCities);
 
 	unsigned int& operator()(unsigned int start, unsigned int destination);
 	unsigned int operator()(unsigned int start, unsigned int destination) const;

@@ -1,24 +1,20 @@
 #pragma once
-#include "ProblemInstance.h"
-#include "ProblemGenerator.h"
-#include "BruteForce.h"
-#include "NearestNeighbour.h"
-#include "GeneticAlgorithm.h"
-#include <fstream>
+#include "Driver.h"
 
 int main()
 {
-	/*
-	std::ofstream out("out.txt");
-	std::streambuf *coutbuf = std::cout.rdbuf();
-	std::cout.rdbuf(out.rdbuf());
-	*/
+	Driver driver;
 
+
+	/*
 	ProblemGenerator generator;
-	ProblemInstance TSP = generator.generateProblem(100, 1, 100);
-	TSP.startingCity = 0;
+	ProblemInstance TSP;
+	//TSP = generator.generateProblem(100, 1, 100);
+	TSP = ProblemInstance(std::vector<std::pair<double, double>>{ {1, 1}, { -1, -1 }, { 2, 2 }, { 0,0 }, { 10, -8 }, { 9, 1 }});
+	TSP.startingCity = 1;
 	TSP.print();
 	Solution sol;
+	*/
 
 	/*
 	BruteForce bf(TSP);
@@ -27,21 +23,35 @@ int main()
 	for (auto city : sol.second)
 		std::cout << city << " -> ";
 	*/
-
 	
+	/*
 	NearestNeighbour nn(TSP);
 	sol = nn.solve();
 	std::cout << "\nShortest path: " << sol.first << "\n";
 	for (auto city : sol.second)
 		std::cout << city << " -> ";
 	std::cout << "\n";
+	*/
 
+	/*
+	SimulatedAnnealing sa(TSP);
+	sa.setAttributes(0.5);
+	sol = sa.solve();
+	std::cout << "\nShortest path: " << sol.first << "\n";
+	for (auto city : sol.second)
+		std::cout << city << " -> ";
+	std::cout << "\n";
+	*/
+
+	/*
 	GeneticAlgorithm ga(TSP);
-	ga.setAttributes(100, 0.1, 0.1);
+	ga.setAttributes(100, 0.3, 0.3);
 	sol = ga.solve(10);
 	std::cout << "\nShortest path: " << sol.first << "\n";
 	for (auto city : sol.second)
 		std::cout << city << " -> ";
 	std::cout << "\n";
+	*/
+
 	system("PAUSE");
 }

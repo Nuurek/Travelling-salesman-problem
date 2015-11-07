@@ -11,6 +11,20 @@ numberOfCities_(numberOfCities), distances_(numberOfCities)
 
 }
 
+ProblemInstance::ProblemInstance(std::vector<std::pair<double, double>> vectorOfCities) :
+	numberOfCities_(vectorOfCities.size()), distances_(vectorOfCities.size())
+{
+	for (unsigned int cityA = 0; cityA < numberOfCities_; cityA++)
+		for (unsigned cityB = cityA + 1; cityB < numberOfCities_; cityB++)
+		{
+			double deltaX = vectorOfCities[cityA].first - vectorOfCities[cityB].first;
+			double deltaY = vectorOfCities[cityA].second - vectorOfCities[cityB].second;
+			deltaX = deltaX * deltaX;
+			deltaY = deltaY * deltaY;
+			distances_(cityB, cityA) = static_cast<unsigned int>(std::move(std::sqrt(deltaX + deltaY)));
+		}
+}
+
 unsigned int& ProblemInstance::operator()(unsigned int start, unsigned int destination)
 {
 	return distances_(start, destination);
