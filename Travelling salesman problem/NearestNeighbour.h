@@ -2,7 +2,7 @@
 #include "TSPSolver.h"
 
 class NearestNeighbour :
-	protected TSPSolver
+	public TSPSolver
 {
 	std::vector<bool> isVisited;
 

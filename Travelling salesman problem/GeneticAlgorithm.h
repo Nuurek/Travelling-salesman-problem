@@ -9,7 +9,7 @@
 #include <cmath>
 
 class GeneticAlgorithm :
-	protected TSPSolver
+	public TSPSolver
 {
 	std::default_random_engine randomEngine_;
 	std::uniform_int_distribution<unsigned int> distribiution_;
@@ -19,6 +19,7 @@ class GeneticAlgorithm :
 	double crossoverPercentage_;
 	double mutationPercentage_;
 	unsigned int maxEpochs_;
+	std::chrono::seconds maxTime_;
 	std::vector<Chromosome> population;
 
 	unsigned long long updateFitness(Chromosome& chromosome);
@@ -45,7 +46,7 @@ public:
 	void epoch();
 
 	void setAttributes(unsigned int populationCap, double crossoverPercentage, double mutationPercentage);
-	void setMaximums(unsigned int maxEpochs);
+	void setRestrictions(unsigned int epochs, std::chrono::seconds time);
 	void print();
 	Solution solve();
 	Solution solve(unsigned int eras);

@@ -3,7 +3,7 @@
 #include <climits>
 
 class BruteForce :
-	protected TSPSolver
+	public TSPSolver
 {
 protected:
 	Solution bestSolution_;

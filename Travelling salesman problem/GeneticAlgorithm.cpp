@@ -110,7 +110,7 @@ Chromosome GeneticAlgorithm::crossover(Chromosome& parentA, Chromosome& parentB)
 				cityAIndex = numberOfCities - 1;
 			if (std::find(childPrototype.begin(), childPrototype.end(), parentA[cityAIndex]) == childPrototype.end())
 			{
-				unsigned int city = unsigned int(parentA[cityAIndex]);
+				unsigned int city = parentA[cityAIndex];
 				childPrototype.push_front(city);
 				taken.emplace_back(city);
 				++sizeOfTaken;
@@ -123,7 +123,7 @@ Chromosome GeneticAlgorithm::crossover(Chromosome& parentA, Chromosome& parentB)
 			cityBIndex = (cityBIndex + 1) % (numberOfCities);
 			if (std::find(childPrototype.begin(), childPrototype.end(), parentB[cityBIndex]) == childPrototype.end())
 			{
-				unsigned int city = unsigned int(parentB[cityBIndex]);
+				unsigned int city = parentB[cityBIndex];
 				childPrototype.push_back(city);
 				taken.emplace_back(city);
 				++sizeOfTaken;
@@ -222,9 +222,10 @@ void GeneticAlgorithm::setAttributes(unsigned int populationCap, double crossove
 	mutationPercentage_ = mutationPercentage;
 }
 
-void GeneticAlgorithm::setMaximums(unsigned int maxEpochs)
+void GeneticAlgorithm::setRestrictions(unsigned int epochs, std::chrono::seconds time)
 {
-	maxEpochs_ = maxEpochs;
+	maxEpochs_ = epochs;
+	maxTime_ = time;
 }
 
 unsigned long long GeneticAlgorithm::sort()
@@ -258,13 +259,13 @@ void GeneticAlgorithm::epoch()
 
 Solution GeneticAlgorithm::solve()
 {
-	return solve(maxEpochs_);
-}
-
-Solution GeneticAlgorithm::solve(unsigned int epochs)
-{
 	initialize();
-	while (epochs--)
+	
+	unsigned int epochs = maxEpochs_;
+	auto start = std::chrono::high_resolution_clock::now();
+
+
+	while (epochs-- && std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start) < maxTime_)
 		epoch();
 
 	unsigned int size = instance_.getNumberOfCities();

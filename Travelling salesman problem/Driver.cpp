@@ -1,7 +1,5 @@
 #include "Driver.h"
 
-
-
 void Driver::loadProblemFromFile(std::string file)
 {
 	std::ifstream in(file);
@@ -20,8 +18,7 @@ void Driver::loadProblemFromFile(std::string file)
 		newTSP(cityA, cityB) = distance;
 		++cityB;
 	}
-	delete TSP_;
-	TSP_ = &newTSP;
+	TSP_ = std::make_unique<ProblemInstance>(newTSP);
 }
 
 void Driver::saveProblemToFile(std::string file)
@@ -36,10 +33,35 @@ void Driver::saveProblemToFile(std::string file)
 	std::cout.rdbuf(coutbuf);
 }
 
-Driver::Driver() : TSP_(new ProblemInstance(0)), generator_()
+void Driver::loadCitiesFromFile(std::string file)
 {
 }
 
+void Driver::printDistanceChart()
+{
+	TSP_->print();
+}
+
+void Driver::generateProblem(unsigned int numberOfCities, unsigned int minDistance, unsigned int maxDistance)
+{
+	TSP_ = std::make_unique<ProblemInstance>(generator_.generateProblem(numberOfCities, minDistance, maxDistance));
+}
+
+void Driver::solveProblem(Algorithms algorithm)
+{
+	Solution sol;// = std::move(algorithms_[static_cast<unsigned int>(algorithm)].solve());
+	std::cout << "\nShortest path: " << sol.first << "\n";
+	for (auto city : sol.second)
+		std::cout << city << " -> ";
+	std::cout << "\n";
+}
+
+Driver::Driver() : 
+	TSP_(std::make_shared<ProblemInstance>(ProblemInstance(0))), 
+	generator_() 
+	//algorithms_(std::move(std::vector<TSPSolver>{BruteForce(*TSP_), NearestNeighbour(*TSP_), SimulatedAnnealing(*TSP_), GeneticAlgorithm(*TSP_)}))
+{
+}
 
 Driver::~Driver()
 {

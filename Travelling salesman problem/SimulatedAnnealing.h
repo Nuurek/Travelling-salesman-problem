@@ -7,7 +7,7 @@
 
 
 class SimulatedAnnealing :
-        public BruteForce
+	public BruteForce
 {
 
 	double T;     // current temperature
