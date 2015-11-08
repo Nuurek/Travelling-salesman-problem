@@ -6,6 +6,8 @@
 #include "SimulatedAnnealing.h"
 #include <fstream>
 #include <memory>
+#include <iostream>
+#include <string>
 
 enum class Algorithms
 {
@@ -14,24 +16,23 @@ enum class Algorithms
 
 class Driver
 {
-	
-	
-public:
 	std::unique_ptr<ProblemInstance> TSP_;
 	ProblemGenerator generator_;
 	BruteForce BF;
 	NearestNeighbour NN;
 	SimulatedAnnealing SA;
 	GeneticAlgorithm GA;
-
+	
+public:
 	Driver();
 	~Driver();
 	
-	void loadCitiesFromFile(std::string file);
-	void loadProblemFromFile(std::string file);
-	void saveProblemToFile(std::string file);
+	bool loadCitiesFromFile(const std::string file);
+	bool loadProblemFromFile(const std::string file);
+	void saveProblemToFile(const std::string file);
 	void printDistanceChart();
 	void generateProblem(unsigned int numberOfCities, unsigned int minDistance, unsigned int maxDistance);
 	void solveProblem(Algorithms algorithm);
+	void run();
 };
 

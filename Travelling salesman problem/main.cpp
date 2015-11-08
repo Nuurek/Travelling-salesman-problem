@@ -5,13 +5,7 @@ int main()
 {
 	
 	Driver driver;
-	driver.generateProblem(10, 1, 10);
-	//driver.saveProblemToFile("distances.txt");
-	//driver.loadProblemFromFile("distances.txt");
-	driver.loadCitiesFromFile("germany120.txt");
-	driver.printDistanceChart();
-	driver.solveProblem(Algorithms::GENETIC_ALGORITHM);
-	
+	driver.run();
 
 	/*
 	ProblemGenerator generator;
@@ -59,6 +53,4 @@ int main()
 		std::cout << city << " -> ";
 	std::cout << "\n";
 	*/
-
-	system("PAUSE");
 }

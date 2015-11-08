@@ -25,7 +25,8 @@ std::vector<unsigned int> BruteForce::firstPathPermutation()
 Solution BruteForce::solve()
 {
 	unsigned int numberOfCities = instance_.getNumberOfCities();
-	
+	if (numberOfCities < 2)
+		return bestSolution_;
 	std::vector<unsigned int> path = firstPathPermutation();
 
 	do
