@@ -27,6 +27,11 @@ public:
 	{
 	}
 
+	void changeInstance(ProblemInstance instance)
+	{
+		instance_ = instance;
+	}
+	
 	virtual Solution solve() = 0;
 };
 

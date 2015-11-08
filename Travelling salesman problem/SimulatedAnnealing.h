@@ -17,13 +17,13 @@ class SimulatedAnnealing :
     double P(long long int deltaDistance, double temp);
 
 public:
-    SimulatedAnnealing(ProblemInstance instance) : BruteForce(instance), T(10000.0), Tmin(0.0001), coolingTempo(0.99999) { };
+    SimulatedAnnealing(ProblemInstance instance) : BruteForce(instance), T(10000.0), Tmin(0.00001), coolingTempo(0.9999) { };
     Solution solve() override;
-	void setAttributes(double temp, double temp_min, double tempo)
+	void setAttributes(double tempo = 0.9999, double Tstart = 10000.0, double Tminimum = 0.00001)
 	{
-		T = temp;
-		Tmin = temp_min;
 		coolingTempo = tempo;
+		T = Tstart;
+		Tmin = Tminimum;
 	}
 };
 

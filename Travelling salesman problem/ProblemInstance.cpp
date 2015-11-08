@@ -12,7 +12,7 @@ numberOfCities_(numberOfCities), distances_(numberOfCities)
 }
 
 ProblemInstance::ProblemInstance(std::vector<std::pair<double, double>> vectorOfCities) :
-	numberOfCities_(vectorOfCities.size()), distances_(vectorOfCities.size())
+	numberOfCities_(vectorOfCities.size()), distances_(vectorOfCities.size()), startingCity(0)
 {
 	for (unsigned int cityA = 0; cityA < numberOfCities_; cityA++)
 		for (unsigned cityB = cityA + 1; cityB < numberOfCities_; cityB++)

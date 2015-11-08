@@ -14,17 +14,22 @@ enum class Algorithms
 
 class Driver
 {
-	std::shared_ptr<ProblemInstance> TSP_;
-	ProblemGenerator generator_;
-	//std::vector<TSPSolver> algorithms_;
+	
 	
 public:
+	std::unique_ptr<ProblemInstance> TSP_;
+	ProblemGenerator generator_;
+	BruteForce BF;
+	NearestNeighbour NN;
+	SimulatedAnnealing SA;
+	GeneticAlgorithm GA;
+
 	Driver();
 	~Driver();
 	
+	void loadCitiesFromFile(std::string file);
 	void loadProblemFromFile(std::string file);
 	void saveProblemToFile(std::string file);
-	void loadCitiesFromFile(std::string file);
 	void printDistanceChart();
 	void generateProblem(unsigned int numberOfCities, unsigned int minDistance, unsigned int maxDistance);
 	void solveProblem(Algorithms algorithm);

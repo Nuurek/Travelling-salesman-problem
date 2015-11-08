@@ -7,10 +7,10 @@ int main()
 	Driver driver;
 	driver.generateProblem(10, 1, 10);
 	//driver.saveProblemToFile("distances.txt");
-	driver.loadProblemFromFile("distances.txt");
+	//driver.loadProblemFromFile("distances.txt");
+	driver.loadCitiesFromFile("germany120.txt");
 	driver.printDistanceChart();
-	driver.solveProblem(Algorithms::NEAREST_NEIGHBOUR);
-
+	driver.solveProblem(Algorithms::GENETIC_ALGORITHM);
 	
 
 	/*

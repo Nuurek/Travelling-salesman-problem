@@ -49,6 +49,5 @@ public:
 	void setRestrictions(unsigned int epochs, std::chrono::seconds time);
 	void print();
 	Solution solve();
-	Solution solve(unsigned int eras);
 };
 
