@@ -1,4 +1,3 @@
-//#include <c++/iomanip>
 #include "SimulatedAnnealing.h"
 
 /*
@@ -43,18 +42,11 @@ Solution SimulatedAnnealing::solve() {
         double distribution_randnumber = distribution01(engine);
         if ((deltaDistance < 0) || (P(deltaDistance) > distribution_randnumber)) {
             bestSolution_ = Solution(distance, path);  // The new path is shorter or temperature is high enough to risk
-//            std::cout << "ACCEPTED: ";
         }
         else {
-//            std::cout << "REJECTED: ";
             path = bestSolution_.second;
         }
         T *= coolingTempo;  // Decrease the temperature
-
-//        std::cout << std::fixed << std::setprecision(2) << "T = " << T << "\tDistanceDiff: " <<
-//        deltaDistance << "\tP() = " <<
-//        P(deltaDistance, T) << "\tRandom: " << distribution_randnumber << "\tSolution: " << bestSolution_.first <<
-//        "\tid1 = " << index1 << "\tid2 = " << index2 << std::endl;
     }
 
     return bestSolution_;
