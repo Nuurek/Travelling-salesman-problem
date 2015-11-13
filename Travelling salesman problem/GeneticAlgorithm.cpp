@@ -262,10 +262,10 @@ Solution GeneticAlgorithm::solve()
 	initialize();
 	
 	unsigned int epochs = maxEpochs_;
-	auto start = std::chrono::high_resolution_clock::now();
+	auto start = std::chrono::steady_clock::now();
 
 
-	while (epochs-- && std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start) < maxTime_)
+	while (epochs-- && std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start) < maxTime_)
 		epoch();
 
 	unsigned int size = instance_.getNumberOfCities();

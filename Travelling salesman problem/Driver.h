@@ -34,7 +34,7 @@ public:
 	void saveProblemToFile(const std::string file);
 	void printDistanceChart();
 	void generateProblem(unsigned int numberOfCities, unsigned int minDistance, unsigned int maxDistance);
-	void solveProblem(Algorithms algorithm);
+	double solveProblem(Algorithms algorithm);
 	void run();
 };
 

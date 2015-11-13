@@ -74,18 +74,21 @@ void Driver::generateProblem(unsigned int numberOfCities, unsigned int minDistan
 	TSP_ = std::make_unique<ProblemInstance>(generator_.generateProblem(numberOfCities, minDistance, maxDistance));
 }
 
-void Driver::solveProblem(Algorithms algorithm)
+double Driver::solveProblem(Algorithms algorithm)
 {
 	Solution solution;
+	std::chrono::time_point<std::chrono::steady_clock> start, end;
 	switch (algorithm)
 	{
 		case(Algorithms::BRUTE_FORCE) :
 			BF = BruteForce(*TSP_);
+			start = std::chrono::steady_clock::now();
 			solution = BF.solve();
 			break;
 
 		case(Algorithms::NEAREST_NEIGHBOUR) :
 			NN = NearestNeighbour(*TSP_);
+			start = std::chrono::steady_clock::now();
 			solution = NN.solve();
 			break;
 
@@ -101,6 +104,7 @@ void Driver::solveProblem(Algorithms algorithm)
 			std::cin >> tempo;
 			SA.setAttributes(tempo, T, Tmin);
 
+			start = std::chrono::steady_clock::now();
 			solution = SA.solve();
 			break;
 
@@ -124,14 +128,17 @@ void Driver::solveProblem(Algorithms algorithm)
 			GA.setAttributes(populationSize, crossoverPercentage, mutationPercentage);
 			GA.setRestrictions(maxEpochs, maxTime);
 
+			start = std::chrono::steady_clock::now();
 			solution = GA.solve();
 			break;
 	}
-
+	end = std::chrono::steady_clock::now();
+	double elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(end - start).count();
 	std::cout << "\nShortest path: " << solution.first << "\n";
 	for (auto city : solution.second)
 		std::cout << city << " -> ";
 	std::cout << "\n";
+	return elapsed_seconds;
 }
 
 void Driver::run()
@@ -225,11 +232,7 @@ void Driver::run()
 				std::cout << "4. Genetic Algorithm\n";
 				std::cout << "> ";
 				std::cin >> selection;
-				auto start = std::chrono::high_resolution_clock::now();	
-				solveProblem(static_cast<Algorithms>(selection - 1));
-				auto end = std::chrono::high_resolution_clock::now();
-				double duration = static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()) / 1000.0;
-				std::cout << "Algorithm finished in " << duration << "s.\n";
+				std::cout << "Algorithm finished in " << solveProblem(static_cast<Algorithms>(selection - 1)) << "s.\n";
 				break;
 			}
 			case(8) :
