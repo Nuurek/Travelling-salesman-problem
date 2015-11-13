@@ -10,7 +10,7 @@ ProblemGenerator::ProblemGenerator()
 ProblemInstance ProblemGenerator::generateProblem(unsigned int numberOfCities, unsigned int minDistance, unsigned int maxDistance)
 {
 	ProblemInstance instance(numberOfCities);
-	distribiution_ = std::move(std::uniform_int_distribution<unsigned int>(minDistance, maxDistance));
+	distribiution_ = std::uniform_int_distribution<unsigned int>(minDistance, maxDistance);
 	
 	for (auto& distance : instance)
 		distance = distribiution_(randomEngine_);

@@ -16,17 +16,19 @@ enum class Algorithms
 
 class Driver
 {
+	
+	
+public:
+	Driver();
+	~Driver();
+
 	std::unique_ptr<ProblemInstance> TSP_;
 	ProblemGenerator generator_;
 	BruteForce BF;
 	NearestNeighbour NN;
 	SimulatedAnnealing SA;
 	GeneticAlgorithm GA;
-	
-public:
-	Driver();
-	~Driver();
-	
+
 	bool loadCitiesFromFile(const std::string file);
 	bool loadProblemFromFile(const std::string file);
 	void saveProblemToFile(const std::string file);

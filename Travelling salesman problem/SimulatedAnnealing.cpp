@@ -11,7 +11,8 @@
 #define calcDistance(path)  calculateDistance(std::make_shared<std::vector<unsigned int>>(path))
 
 double SimulatedAnnealing::P(long long int deltaDistance, double temp) {
-    return std::exp((-deltaDistance) / temp);
+    return std::exp(1000000.0 * (-deltaDistance) / (temp));
+	//return 0;
 }
 
 Solution SimulatedAnnealing::solve() {
@@ -61,19 +62,20 @@ Solution SimulatedAnnealing::solve() {
         long long int deltaDistance = distance - bestSolution_.first;
         double distribution_randnumber = distribution01(engine);
         if ((deltaDistance < 0) || (P(deltaDistance, T) > distribution_randnumber)) {
-            bestSolution_ = Solution(distance, path);  // The new path is shorter or temperature is high enough to risk
-//            std::cout << "ACCEPTED: ";
+			bestSolution_.first = distance;
+			std::swap(bestSolution_.second[index1], bestSolution_.second[index2]);
+            std::cout << "ACCEPTED: ";
         }
         else {
-//            std::cout << "REJECTED: ";
-            path = bestSolution_.second;    //!!!
+            std::cout << "REJECTED: ";
+			std::swap(path[index1], path[index2]);    //!!!
         }
         T *= coolingTempo;  // Decrease the temperature
-
-//        std::cout << std::fixed << std::setprecision(2) << "T = " << T << "\tDistanceDiff: " <<
-//        deltaDistance << "\tP() = " <<
-//        P(deltaDistance, T) << "\tRandom: " << distribution_randnumber << "\tSolution: " << bestSolution_.first <<
-//        "\tid1 = " << index1 << "\tid2 = " << index2 << std::endl;
+		//T -= coolingTempo;
+       std::cout << std::fixed << std::setprecision(2) << "T = " << T << "\tDistanceDiff: " <<
+        deltaDistance << "\tP() = " <<
+        P(deltaDistance, T) << "\tRandom: " << distribution_randnumber << "\tSolution: " << bestSolution_.first <<
+        "\tid1 = " << index1 << "\tid2 = " << index2 << std::endl;
     }
 
     return bestSolution_;
