@@ -10,8 +10,8 @@
 
 #define calcDistance(path)  calculateDistance(std::make_shared<std::vector<unsigned int>>(path))
 
-double SimulatedAnnealing::P(long long int deltaDistance, double temp) {
-    return std::exp((-deltaDistance) / temp);
+double SimulatedAnnealing::P(long long int deltaDistance) {
+    return std::exp((-deltaDistance) / T);
 }
 
 Solution SimulatedAnnealing::solve() {
@@ -19,8 +19,6 @@ Solution SimulatedAnnealing::solve() {
     std::vector<unsigned int> path = firstPathPermutation();
 
     auto engine = std::default_random_engine{static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()) };
-    //std::random_device rd;
-    //std::mt19937 engine(rd());
 
     std::uniform_int_distribution<unsigned int> distribution(1, numberOfCities - 1);
     std::uniform_real_distribution<double> distribution01(0, 1);
@@ -31,23 +29,6 @@ Solution SimulatedAnnealing::solve() {
 
     unsigned int index1;
     unsigned int index2;
-
-//    std::cout<<std::fixed << P(5000,10000) << std::endl;
-//    std::cout<<std::fixed << P(5000,1000) << std::endl;
-//    std::cout<<std::fixed << P(5000,100) << std::endl;
-//    std::cout<<std::fixed << P(5000,10) << std::endl;
-//    std::cout<<std::fixed << P(5000,1) << std::endl;
-//    std::cout<<std::fixed << P(1000,10000) << std::endl;
-//    std::cout<<std::fixed << P(1000,1000) << std::endl;
-//    std::cout<<std::fixed << P(1000,100) << std::endl;
-//    std::cout<<std::fixed << P(1000,10) << std::endl;
-//    std::cout<<std::fixed << P(1000,1) << std::endl;
-//    std::cout<<std::fixed << P(500, 1000) << std::endl;
-//    std::cout<<std::fixed << P(100, 1000) << std::endl;
-//    std::cout<<std::fixed << P(10, 1000) << std::endl;
-//    std::cout<<std::fixed << P(0, 1000) << std::endl;
-//    std::cout<<std::fixed << P(-100, 1000) << std::endl;
-//    std::cout<<std::fixed << P(100, 100) << std::endl;
 
     while (T > Tmin)
     {
@@ -60,13 +41,13 @@ Solution SimulatedAnnealing::solve() {
         distance = calcDistance(path);          // Calculate the distance of new path
         long long int deltaDistance = distance - bestSolution_.first;
         double distribution_randnumber = distribution01(engine);
-        if ((deltaDistance < 0) || (P(deltaDistance, T) > distribution_randnumber)) {
+        if ((deltaDistance < 0) || (P(deltaDistance) > distribution_randnumber)) {
             bestSolution_ = Solution(distance, path);  // The new path is shorter or temperature is high enough to risk
 //            std::cout << "ACCEPTED: ";
         }
         else {
 //            std::cout << "REJECTED: ";
-            path = bestSolution_.second;    //!!!
+            path = bestSolution_.second; 
         }
         T *= coolingTempo;  // Decrease the temperature
 

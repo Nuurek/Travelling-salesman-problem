@@ -10,7 +10,7 @@ class ProblemInstance
 	std::vector<std::pair<double, double>> citiesPositions;
 
 public:
-	unsigned int startingCity;
+	unsigned int startingCity = 0;
 
 	ProblemInstance();
 	ProblemInstance(unsigned int numberOfCities);

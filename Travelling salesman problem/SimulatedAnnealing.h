@@ -14,7 +14,7 @@ class SimulatedAnnealing :
     double Tmin;  // minimum temperature
     double coolingTempo;
 
-    double P(long long int deltaDistance, double temp);
+    double P(long long int deltaDistance);
 
 public:
     SimulatedAnnealing(ProblemInstance instance) : BruteForce(instance), T(10000.0), Tmin(0.00001), coolingTempo(0.9999) { };
