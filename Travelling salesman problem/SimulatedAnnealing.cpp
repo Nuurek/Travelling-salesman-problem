@@ -47,7 +47,7 @@ Solution SimulatedAnnealing::solve() {
         }
         else {
 //            std::cout << "REJECTED: ";
-            path = bestSolution_.second; 
+            path = bestSolution_.second;
         }
         T *= coolingTempo;  // Decrease the temperature
 

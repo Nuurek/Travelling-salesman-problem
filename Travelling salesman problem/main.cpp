@@ -3,10 +3,39 @@
 
 int main()
 {
+	/*
+	ProblemGenerator generator;
+	ProblemInstance TSP = generator.generateProblem(100, 1, 100);
+	GeneticAlgorithm GA = GeneticAlgorithm(TSP);
+	GA.setRestrictions(20, std::chrono::seconds(300));
+	std::ofstream times, results;
+	times.open("GAczasy50c20e.txt");
+	results.open("GAwyniki50c20e.txt");
+	unsigned long long path = 0;
+
+	for (double cross = 0.1; cross <= 0.9; cross += 0.1)
+	{
+		for (double mutate = 0.1; mutate <= 0.9; mutate += 0.1)
+		{
+			auto start = std::chrono::high_resolution_clock::now();
+			GA.setAttributes(100, cross, mutate);
+			path = GA.solve().first;
+			auto end = std::chrono::high_resolution_clock::now();
+			double duration = static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()) / 1000.0;
+			times << duration << "\t";
+			results << path << "\t";
+			std::cout << cross << " x " << mutate << " -> " << path << " in " << duration << "\n";
+		}
+		times << "\n";
+		results << "\n";
+	}
+	*/
+
 	
 	Driver driver;
 	driver.run();
-
+	
+	
 	/*
 	ProblemGenerator generator;
 	ProblemInstance TSP;

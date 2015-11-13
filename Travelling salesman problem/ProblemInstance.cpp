@@ -1,12 +1,12 @@
 #include "ProblemInstance.h"
 
-ProblemInstance::ProblemInstance() : numberOfCities_(0), distances_(0)
+ProblemInstance::ProblemInstance() : numberOfCities_(0), distances_(0), startingCity(0)
 {
 
 }
 
 ProblemInstance::ProblemInstance(unsigned int numberOfCities) :
-numberOfCities_(numberOfCities), distances_(numberOfCities)
+	numberOfCities_(numberOfCities), distances_(numberOfCities), startingCity(0)
 {
 
 }
